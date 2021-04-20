@@ -1,7 +1,7 @@
 # FaceNet_EmbeddedSystem
-System and Library developed for the inference of an artificial neural network, especially for FaceNet. Made in C code, it has been tested on an ESP32 microcontroller and raspberry PI.
+System and Library developed for the inference of an artificial neural network, especially for FaceNet. Made in C and C++ code, it has been tested on an ESP32 microcontroller and raspberry PI.
 
-## Architecture Facenet 
+## Facenet (Architecture) 
 | Type | Output | Params |
 | --- | --- | --- |
 | Input | 96x96x3 | 0 |
@@ -31,3 +31,12 @@ System and Library developed for the inference of an artificial neural network, 
 | flatten | 736 | 0 |
 | dense_layer | 128 | 94336 |
 | L2 Normalization | 128 | 0 |
+
+## Instructions
+1. Clone the repository.
+2. In the src folder, download the weights, the link of the FaceNet weights is in the same folder in the file readme2.md
+3. This version depends on OpenCV for geolocation of the face in the image delivered by the camera, therefore having Opencv 4V installed
+4. Compile all the files in this folder with some compiler, it was tested with the cross gcc compiler.
+5. The program has two options:
+   a. Option == 1: Add a new person, it asks for the name and then takes a photo where you can decide whether or not to save the name for that image, if you choose not, the process will be repeated again.
+   b. option == 2: Identify the face of the person by comparing each encode that is stored in the database.
