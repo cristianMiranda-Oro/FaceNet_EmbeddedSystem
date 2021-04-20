@@ -38,7 +38,5 @@ System and Library developed for the inference of an artificial neural network, 
 3. This version depends on OpenCV for geolocation of the face in the image delivered by the camera, therefore having Opencv 4V installed
 4. Compile all the files in this folder with some compiler, it was tested with the cross gcc compiler.
 5. The program has two options:
-   ### a. Option == 1: 
-   Add a new person, it asks for the name and then takes a photo where you can decide whether or not to save the name for that image, if you choose not, the process will be repeated again.
-   ### b. option == 2: 
-   Identify the face of the person by comparing each encode that is stored in the database.
+   * a. Option == 1: Add a new person, it asks for the name and then takes a photo where you can decide whether or not to save the name for that image, if you choose not, the process will be repeated again.
+   * b. option == 2: Identify the face of the person by comparing each encode that is stored in the database.
