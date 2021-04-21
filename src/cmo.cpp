@@ -15,64 +15,6 @@
 #include "deep_learning_CMO.h"
 
 
-/*
-static inline void cmo_lib_free(void *d)
-{
-    if (NULL == d)
-        return;
-
-    free(((void **)d)[-1]);
-}
-
-
-static void *cmo_lib_calloc(int cnt, int size, int align)
-{
-    int total_size = cnt * size + align + sizeof(void *);
-    void *res = malloc(total_size);
-    if (NULL == res)
-    {
-        return NULL;
-    }
-    bzero(res, total_size);
-    void **data = (void **)res + 1;
-    void **aligned;
-    if (align)
-        aligned = (void **)(((size_t)data + (align - 1)) & -align);
-    else
-        aligned = data;
-
-    aligned[-1] = res;
-    return (void *)aligned;
-}
-
-
-static inline matrix_NHWC *matrix_NHWC_alloc(int n, int w, int h, int c)
-{
-	matrix_NHWC *r = (matrix_NHWC *)cmo_lib_calloc(1, sizeof(matrix_NHWC), 0);
-    if (NULL == r)
-    {
-        printf("internal r failed.\n");
-        return NULL;
-    }
-    float *items = (float *)cmo_lib_calloc(n * w * h * c, sizeof(float), 0);
-    if (NULL == items)
-    {
-        printf("matrix3d item alloc failed.\n");
-        cmo_lib_free(r);
-        return NULL;
-    }
-
-    r->w = w;
-    r->h = h;
-    r->c = c;
-    r->n = n;
-    r->stride = w * c;
-    r->item = items;
-
-    return r;
-}
-*/
-
 
 void cmo_NHWC_l2_normalize(matrix_NHWC *s)
 {
@@ -290,8 +232,6 @@ matrix_NHWC *cmo_NHWC_conv(matrix_NHWC *in,
 		}
 	}
 
-	//free(in->item);
-	//free(in);
 
 	if(f == FREE_MEMORY_Y)
 	{
@@ -339,7 +279,6 @@ void cmo_NHWC_batch_normalize(matrix_NHWC *s,
 		for(int c = 0; c < s->c; c++)
 		{
 			s->item[c + i*s->c] = s->item[c + i*s->c]*scale->item[c] + offset->item[c];
-			//printf(" *%i* ", c+i*s->c);
 		}
 	}
 }
@@ -352,51 +291,32 @@ matrix_NHWC *cmo_NHWC_concat4(matrix_NHWC *in_1, matrix_NHWC *in_2, matrix_NHWC 
 
 
 	matrix_NHWC *s = matrix_NHWC_alloc(1, w, h, c);
-	//s = matrix_NHWC_alloc(1, w, h, c);
-
-	//printf(" %i ", s->c);
-
-	//int p = 0;
 
 	for(int j = 0; j < in_1->w*in_1->h; j++)
 	{
 
 		for(int k = 0; k < in_1->c; k++)
 		{
-
-			//p = k + j*in_2->c + j*in_1->c + j*in_2->c + j*in_4->c;
-			//printf("p= %i*",p);
 			s->item[ k + j*in_1->c + j*in_2->c + j*in_3->c + j*in_4->c] =in_1->item[k + j*in_1->c];
 		}
-
-		//printf("\n");
 	}
 
-		//printf("\n\n");
 
 	for(int j = 0; j < in_2->h*in_2->w; j ++)
 	{
 		for(int l = 0; l < in_2->c; l++)
 		{
-			//p =l + (j+1)*in_1->c + j*in_2->c + j*in_3->c + j*in_4->c;
-			//printf("p= %i*",p);
-
 			s->item[l + (j+1)*in_1->c + j*in_2->c + j*in_3->c + j*in_4->c] = in_2->item[l + j*in_2->c];
 		}
-		//printf("\n");
-
 	}
 
 	for(int j = 0; j < in_3->h*in_3->w; j ++)
 	{
 		for(int l = 0; l < in_3->c; l++)
 		{
-			//p =l + (j+1)*in_1->c + (j+1)*in_2->c + j*in_3->c + j*in_4->c;
-			//printf("p= %i*",p);
 
 			s->item[l + (j+1)*in_1->c + (j+1)*in_2->c + j*in_3->c + j*in_4->c] = in_3->item[l + j*in_3->c];
 		}
-		//printf("\n");
 
 	}
 
@@ -404,12 +324,8 @@ matrix_NHWC *cmo_NHWC_concat4(matrix_NHWC *in_1, matrix_NHWC *in_2, matrix_NHWC 
 	{
 		for(int l = 0; l < in_4->c; l++)
 		{
-			//p =l + (j+1)*in_1->c + (j+1)*in_2->c + (j+1)*in_3->c + j*in_4->c;
-			//printf("p= %i*",p);
-
 			s->item[l + (j+1)*in_1->c + (j+1)*in_2->c + (j+1)*in_3->c + j*in_4->c] = in_4->item[l + j*in_4->c];
 		}
-		//printf("\n");
 
 	}
 
@@ -435,40 +351,24 @@ matrix_NHWC *cmo_NHWC_concat3(matrix_NHWC *in_1, matrix_NHWC *in_2, matrix_NHWC 
 
 
 	matrix_NHWC *s = matrix_NHWC_alloc(1, w, h, c);
-	//s = matrix_NHWC_alloc(1, w, h, c);
-
-
-
-	//printf(" %i ", s->c);
-
-	//int p = 0;
 
 	for(int j = 0; j < in_1->w*in_1->h; j++)
 	{
 
 		for(int k = 0; k < in_1->c; k++)
 		{
-
-			//p =k + j*in_2->c + j*in_1->c;
-			//printf("p= %i*",p);
 			s->item[ k + j*in_1->c + j*in_2->c + j*in_3->c] =in_1->item[k + j*in_1->c];
 		}
 
-		//printf("\n");
 	}
 
-		//printf("\n\n");
 
 	for(int j = 0; j < in_2->h*in_2->w; j ++)
 	{
 		for(int l = 0; l < in_2->c; l++)
 		{
-			//p =l + j*in_2->c;
-			//printf("p= %i*",p);
-
 			s->item[l + (j+1)*in_1->c + j*in_2->c + j*in_3->c] = in_2->item[l + j*in_2->c];
 		}
-		//printf("\n");
 
 	}
 
@@ -476,12 +376,8 @@ matrix_NHWC *cmo_NHWC_concat3(matrix_NHWC *in_1, matrix_NHWC *in_2, matrix_NHWC 
 	{
 		for(int l = 0; l < in_3->c; l++)
 		{
-			//p =l + j*in_2->c;
-			//printf("p= %i*",p);
-
 			s->item[l + (j+1)*in_1->c + (j+1)*in_2->c + j*in_3->c] = in_3->item[l + j*in_3->c];
 		}
-		//printf("\n");
 
 	}
 
@@ -503,39 +399,22 @@ matrix_NHWC *cmo_NHWC_concat2(matrix_NHWC *in_1, matrix_NHWC *in_2, free_type f)
 
 
 	matrix_NHWC *s = matrix_NHWC_alloc(1, w, h, c);
-	//s = matrix_NHWC_alloc(1, w, h, c);
-
-	//printf(" %i ", s->c);
-
-	//int p = 0;
-
+	
 	for(int j = 0; j < in_1->w*in_1->h; j++)
 	{
 
 		for(int k = 0; k < in_1->c; k++)
 		{
-
-			//p =k + j*in_2->c + j*in_1->c;
-			//printf("p= %i*",p);
 			s->item[ k + j*in_1->c + j*in_2->c] =in_1->item[k + j*in_1->c];
 		}
-
-		//printf("\n");
 	}
-
-		//printf("\n\n");
 
 	for(int j = 0; j < in_2->h*in_2->w; j ++)
 	{
 		for(int l = 0; l < in_2->c; l++)
 		{
-			//p =l + j*in_2->c;
-			//printf("p= %i*",p);
-
 			s->item[l + (j+1)*in_1->c + j*in_2->c] = in_2->item[l + j*in_2->c];
 		}
-		//printf("\n");
-
 	}
 
 	if(f == FREE_MEMORY_Y)
@@ -559,7 +438,6 @@ matrix_NHWC *cmo_NHWC_padding(unsigned int padd_L, unsigned int padd_R, unsigned
 
 
 	matrix_NHWC *s = matrix_NHWC_alloc(1, w, h, c);
-	//s = matrix_NHWC_alloc(1, w, h, c);
 
 	float * dataP = s->item; //imagen para el padding
 	float * imageP = imageOrigi->item; //imagen original
@@ -660,8 +538,6 @@ matrix_NHWC * faceNetIdent(matrix_NHWC *image)
 	out_1 = cmo_NHWC_conv(out_1, &conv1_kernel, &conv1_bias, 2, 2, PADDING_VALID, FREE_MEMORY_Y);
 	cmo_NHWC_batch_normalize(out_1, &bn1_scale,&bn1_offset);
 	cmo_NHWC_ActivationRelu(out_1);
-
-
 
 	// Zero-Padding + MaxPool
 	out_1 = cmo_NHWC_padding(1, 1, 1, 1, out_1, FREE_MEMORY_Y );
@@ -886,7 +762,6 @@ matrix_NHWC * faceNetIdent(matrix_NHWC *image)
 	cmo_NHWC_ActivationRelu(X_1x1);
 
 	conca = cmo_NHWC_concat3(X_3x3, X_pool, X_1x1, FREE_MEMORY_Y);
-
 
 	// Top Layer
 
