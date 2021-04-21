@@ -12,21 +12,19 @@
 
 typedef struct
 {
-    int w;        /*!< Width */
-    int h;        /*!< Height */
-    int c;        /*!< Channel */
-    int n;        /*!< Number of filter, input and output must be 1 */
-    int stride;   /*!< Step between lines */
-    float *item; /*!< Data */
+    int w;        /*width */
+    int h;        /*height */
+    int c;        /*channel */
+    int n;        /*filters*/
+    int stride;   /*w*c*/
+    float *item; /*data*/
 } matrix_NHWC;
 
 
 typedef enum
 {
-    PADDING_VALID = 0,                   /*!< Valid padding */
-    PADDING_SAME = 1,                    /*!< Same padding, from right to left, free input */
-    PADDING_SAME_DONT_FREE_INPUT = 2,    /*!< Same padding, from right to left, do not free input */
-    PADDING_SAME_MXNET = 3,              /*!< Same padding, from left to right */
+    PADDING_VALID = 0,                
+    PADDING_SAME = 1,   
 } padding_type;
 
 typedef enum
@@ -47,32 +45,8 @@ static inline void cmo_lib_free(matrix_NHWC *d)
 
     free(d->item);
     free(d);
-    //free(((matrix_NHWC **)d)[-1]);
+
 }
-
-// Description: Zero-initialized and allocate space.
-// for memory free should use cmo_lib_free() function
-// This function (matrix_NHWC_alloc) is a succession of another top function.
-// took of = https://github.com/espressif/esp-face/blob/master/lib/include/dl_lib_matrix3d.h
-/*static void *cmo_lib_calloc(int cnt, int size, int align)
-{
-    int total_size = cnt * size + align + sizeof(void *);
-    void *res = malloc(total_size);
-    if (NULL == res)
-    {
-        return NULL;
-    }
-    bzero(res, total_size);
-    void **data = (void **)res + 1;
-    void **aligned;
-    if (align)
-        aligned = (void **)(((size_t)data + (align - 1)) & -align);
-    else
-        aligned = data;
-
-    aligned[-1] = res;
-    return (void *)aligned;
-}*/
 
 
 // Description: host memory for NHWC type structure
@@ -83,23 +57,6 @@ static inline matrix_NHWC *matrix_NHWC_alloc(int n, int w, int h, int c)
 
 	matrix_NHWC *r = (matrix_NHWC *)malloc(sizeof(matrix_NHWC));
 	float *items = (float *)malloc(n*w*h*c*sizeof(float));
-
-	/*
-	matrix_NHWC *r = (matrix_NHWC *)cmo_lib_calloc(1, sizeof(matrix_NHWC), 0);
-
-    if (NULL == r)
-    {
-        printf("internal r failed.\n");
-        return NULL;
-    }
-    float *items = (float *)cmo_lib_calloc(n * w * h * c, sizeof(float), 0);
-    if (NULL == items)
-    {
-        printf("matrix3d item alloc failed.\n");
-        cmo_lib_free(r);
-        return NULL;
-    }
-    */
 
     r->w = w;
     r->h = h;
