@@ -1,6 +1,20 @@
 # FaceNet_EmbeddedSystem
 System and Library developed for the inference of an artificial neural network, especially for FaceNet. Made in C and C++ code, it has been tested on an ESP32 microcontroller and raspberry PI.
 
+## DeepLearning Functions:
+
+* matrix_NHWC_alloc : Allocate memory for NHWC data type
+* cmo_lib_free : Free up memory
+* cmo_NHWC_l2_normalize : L2 normalization
+* cmo_NHWC_MaxPooling : Maxpooling
+* cmo_NHWC_AveragePooling: Average Pooling
+* cmo_NHWC_conv :  Convolution between two volumes
+* cmo_NHWC_dense : fully conected
+* cmo_NHWC_batch_normalize: batch normalization
+* cmo_NHWC_concat: Concatenation
+* cmo_NHWC_padding: Applies zero margins to volume
+* cmo_NHWC_ActivationRelu: Relu activation function
+
 ## Facenet (Architecture) 
 | Type | Output | Params |
 | --- | --- | --- |
