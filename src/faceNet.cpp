@@ -109,7 +109,7 @@ int main()
 
 	CascadeClassifier detector;
 
-	if(!detector.load("/home/cristian/opencv/data/haarcascades/haarcascade_frontalface_alt.xml"))
+	if(!detector.load("/opt/opencv/data/haarcascades/haarcascade_frontalface_alt.xml"))
 		cout << "No se puede abrir clasificador." << endl;
 
 	VideoCapture cap(0);
@@ -137,7 +137,7 @@ int main()
 
 			//Cargamos el dataset de los encodes
 
-			fp = fopen("/home/cristian/eclipse-workspace/faceNet/files/conteo.txt","r");
+			fp = fopen("files/conteo.txt","r");
 			if(fp ==NULL)
 			{
 				printf("\n**Archivo no encontrado**");
@@ -181,7 +181,7 @@ int main()
 
 			for(int k = 0;  k < num +1; k ++)
 			{
-				ruta = "/home/cristian/eclipse-workspace/faceNet/encode/"+to_string(numeroNombres.at(k)) +"_"+nombres.at(k)+".txt";
+				ruta = "faceNet/encode/"+to_string(numeroNombres.at(k)) +"_"+nombres.at(k)+".txt";
 				fp = fopen(ruta.c_str(),"r");
 				if(fp ==NULL)
 				{
@@ -263,7 +263,7 @@ int main()
 						afi[0] = toupper(afi[0]);
 						afi[1] = toupper(afi[1]);
 
-						ruta = "/home/cristian/eclipse-workspace/faceNet/dataset/" + to_string(contador) +"_"+to_string(num+1)+".jpg";
+						ruta = "dataset/" + to_string(contador) +"_"+to_string(num+1)+".jpg";
 
 						if(afi[1] == 'Y')
 						{
@@ -347,7 +347,7 @@ int main()
 
 							printf("\n***La id que se identifico fue: %i", id);
 
-							fp = fopen("/home/cristian/eclipse-workspace/faceNet/dataset/resultados.txt","a");
+							fp = fopen("dataset/resultados.txt","a");
 							fputs(txt.c_str(),fp);
 							fclose(fp);
 
@@ -373,7 +373,7 @@ int main()
 		{
 			printf("\nEsta en la Opcion 1");
 
-			fp = fopen("/home/cristian/eclipse-workspace/faceNet/files/conteoNum.txt","r");
+			fp = fopen("files/conteoNum.txt","r");
 			if(fp ==NULL)
 			{
 				printf("\n**Archivo no encontrado**");
@@ -438,7 +438,7 @@ int main()
 						{
 
 							op= 0;
-							fp = fopen("/home/cristian/eclipse-workspace/faceNet/files/conteo.txt","a");
+							fp = fopen("files/conteo.txt","a");
 							if(fp ==NULL)
 							{
 								printf("\n**Archivo no encontrado**");
@@ -486,7 +486,7 @@ int main()
 
 
 
-							ruta = "/home/cristian/eclipse-workspace/faceNet/image/" + to_string(num) +"_"+nombre+".jpg";
+							ruta = "image/" + to_string(num) +"_"+nombre+".jpg";
 
 							if(imwrite(ruta,mostrar) == false)
 							{
@@ -496,7 +496,7 @@ int main()
 							{
 								printf("\nImagen guardada");
 							}
-							ruta = "/home/cristian/eclipse-workspace/faceNet/encode/"+to_string(num) +"_"+nombre+".txt";
+							ruta = "encode/"+to_string(num) +"_"+nombre+".txt";
 
 							//cout<<ruta<<endl;
 							fp = fopen(ruta.c_str(),"w");
@@ -559,7 +559,7 @@ int main()
 			}
 
 			//Actualizamos el conteo
-			fp = fopen("/home/cristian/eclipse-workspace/faceNet/files/conteoNum.txt","w");
+			fp = fopen("files/conteoNum.txt","w");
 			if(fp ==NULL)
 			{
 				printf("\n**Archivo no encontrado**");
@@ -721,5 +721,3 @@ for(int i=0; i < (out->h)*(out->w)*(out->n)*(out->c) ; i++)
 }
 
 cmo_lib_free(out);*/
-
-
