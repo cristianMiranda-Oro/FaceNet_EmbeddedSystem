@@ -26,3 +26,8 @@ System and Library developed for the inference of an artificial neural network, 
    * a. Option == 1: Add a new person, it asks for the name and then takes a photo where you can decide whether or not to save the name for that image, if you choose not, the process will be repeated again.
    * b. option == 2: Identify the face of the person by comparing each encode that is stored in the database.
 git clone https://github.com/Itseez/opencv_contrib.git
+
+## Notice
+Change the detector path on line 112 on the faceNet.cpp file: if(!detector.load("/opt/opencv/data/haarcascades/haarcascade_frontalface_alt.xml")) to their correspondence opencv path.
+
+
