@@ -29,5 +29,5 @@ git clone https://github.com/Itseez/opencv_contrib.git
 
 ## Notice
 * Change the detector path on line 112 on the faceNet.cpp file: if(!detector.load("/opt/opencv/data/haarcascades/haarcascade_frontalface_alt.xml")) to their correspondence opencv path.
-* In the python_formateo folder, there is a file called formateo.py, this python script converting the weights .h5 (Obtained from TensorFlow) to a file .h (Header)
+* In the python_formateo folder, there is a file called formateo.py, this python script converting the weights .h5 (Obtained from TensorFlow) to a file .h (Header C)
 
